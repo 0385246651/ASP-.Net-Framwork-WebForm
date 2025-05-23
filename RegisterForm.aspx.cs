@@ -35,6 +35,37 @@ namespace ASP_WebForm
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
+            if (!Page.IsValid)
+            {
+                // Nếu có bất kỳ lỗi validation nào khác, dừng lại ở đây
+                return;
+            }
+
+            // --- Server-side Validation cho Sở thích ---
+            bool anyHobbySelected = false;
+            foreach (ListItem item in txtHobbies.Items)
+            {
+                if (item.Selected)
+                {
+                    anyHobbySelected = true;
+                    break; // Chỉ cần tìm thấy một sở thích được chọn là đủ
+                }
+            }
+
+            if (!anyHobbySelected)
+            {
+                // Nếu không có sở thích nào được chọn, hiển thị thông báo lỗi
+                // Bạn cần một Label để hiển thị lỗi này trên trang ASPX
+                lblHobbyError.Text = "Vui lòng chọn ít nhất một sở thích.";
+                lblHobbyError.Visible = true; // Hiện thị Label lỗi
+                return; // Dừng xử lý và không chuyển hướng
+            }
+            else
+            {
+                lblHobbyError.Visible = false; // Ẩn lỗi nếu đã chọn
+            }
+            // --- Kết thúc Server-side Validation cho Sở thích ---
+
             Dictionary<string, string> formData = new Dictionary<string, string>();
 
             // 1. Lấy thông tin cá nhân - Cập nhật KEY ở đây!
@@ -96,7 +127,7 @@ namespace ASP_WebForm
             Session["AvatarPath"] = avatarVirtualPath;
 
             // Chuyển hướng sang trang InfoPage.aspx
-            Response.Redirect("InfoPage.aspx");
+            Response.Redirect("Info.aspx");
         }
     }
 }

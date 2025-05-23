@@ -33,10 +33,12 @@
             <asp:Label ID="lblPromptName" runat="server" Text="Enter your name:" />
             <br />
             <asp:TextBox ID="txtName" runat="server" />
+            <asp:RequiredFieldValidator ID="reqName" runat="server" ControlToValidate="txtName" ErrorMessage="Vui lòng nhập Tên" ForeColor="Red"/>
             <br />
             <asp:Label ID="lblPromptID" runat="server" Text=" Enter your ID:" />
             <br />
             <asp:TextBox ID="txtID" runat="server" />
+            <asp:RequiredFieldValidator ID="reqID" runat="server" ControlToValidate="txtID" ErrorMessage="Vui lòng nhập ID" ForeColor="Red"/>
             <br />
             <br />
              <asp:CheckBoxList ID="colors" runat="server">

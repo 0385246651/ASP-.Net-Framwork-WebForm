@@ -42,6 +42,15 @@ namespace ASP_WebForm
         protected global::System.Web.UI.WebControls.TextBox txtName;
 
         /// <summary>
+        /// reqName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqName;
+
+        /// <summary>
         /// lblPromptID control.
         /// </summary>
         /// <remarks>
@@ -58,6 +67,15 @@ namespace ASP_WebForm
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtID;
+
+        /// <summary>
+        /// reqID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqID;
 
         /// <summary>
         /// colors control.

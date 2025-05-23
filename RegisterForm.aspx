@@ -51,7 +51,7 @@
             color: navy;
         }
 
-        div > span {
+        .label{
             display: inline-block;
             width: 140px; /* Điều chỉnh độ rộng nhãn */
             margin-bottom: 10px;
@@ -124,7 +124,7 @@
             display: none; /* Ẩn thẻ br thừa sau h3 */
         }
 
-        #txtMajor{
+        #txtMajor, #txtGender{
             width: 27.5%;
             height:21px;
         }
@@ -135,59 +135,87 @@
     </style>
 </head>
 <body>
-    <form id="registerForm" runat="server">
+   <form id="registerForm" runat="server">
         <div class="header">
             <h1>Đăng ký học</h1>
             <p>Bạn vui lòng điền đầy đủ thông tin vào các ô bên dưới để hoàn thành việc gửi đơn đăng ký học.</p>
         </div>
+
         <h3>Thông tin cá nhân</h3>
         <div class="form-block">
-
             <br />
-            <span>Họ Tên</span>
+            <span class="label">Họ Tên</span>
             <asp:TextBox ID="txtName" runat="server" />
+            <asp:RequiredFieldValidator ID="rfvName" runat="server" 
+                ControlToValidate="txtName" ErrorMessage="Vui lòng nhập họ tên" 
+                CssClass="error" ValidationGroup="SubmitGroup" ForeColor="Red"/>
             <br />
 
-            <span>Ngày sinh</span>
-            <asp:DropDownList ID="ddlDay" runat="server"></asp:DropDownList>
+            <span class="label">Ngày sinh</span>
+            <asp:DropDownList ID="ddlDay" runat="server" />
             /
-            <asp:DropDownList ID="ddlMonth" runat="server"></asp:DropDownList>
+            <asp:DropDownList ID="ddlMonth" runat="server" />
             /
-            <asp:DropDownList ID="ddlYear" runat="server"></asp:DropDownList>
+            <asp:DropDownList ID="ddlYear" runat="server" />
+            <asp:RangeValidator ID="rvYear" runat="server" ControlToValidate="ddlYear"
+                MinimumValue="1950" MaximumValue="2020" Type="Integer"
+                ErrorMessage="Năm sinh không hợp lệ" CssClass="error" ValidationGroup="SubmitGroup" ForeColor="Red"/>
             <br />
 
-            <span>Giới tính</span>
+            <span class="label">Giới tính</span>
             <asp:DropDownList ID="txtGender" runat="server">
                 <asp:ListItem Text="Nam" Value="Nam" />
                 <asp:ListItem Text="Nữ" Value="Nữ" />
             </asp:DropDownList>
             <br />
 
-            <span>Điện thoại</span>
+            <span class="label">Điện thoại</span>
             <asp:TextBox ID="txtPhone" runat="server" />
+            <asp:RequiredFieldValidator ID="rfvPhone" runat="server" 
+                ControlToValidate="txtPhone" ErrorMessage="Vui lòng nhập SĐT" 
+                CssClass="error" ValidationGroup="SubmitGroup" ForeColor="Red" />
+            <asp:RegularExpressionValidator ID="revPhone" runat="server"
+                ControlToValidate="txtPhone" 
+                ValidationExpression="^0\d{9,10}$" 
+                ErrorMessage="Số điện thoại không hợp lệ" CssClass="error" 
+                ValidationGroup="SubmitGroup" ForeColor="Red"/>
             <br />
 
-            <span>Email</span>
+            <span class="label">Email</span>
             <asp:TextBox ID="txtEmail" runat="server" TextMode="Email" />
+            <asp:RequiredFieldValidator ID="rfvEmail" runat="server"
+                ControlToValidate="txtEmail" ErrorMessage="Vui lòng nhập Email"
+                CssClass="error" ValidationGroup="SubmitGroup" ForeColor="Red"/>
+            <asp:RegularExpressionValidator ID="revEmail" runat="server"
+                ControlToValidate="txtEmail"
+                ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"
+                ErrorMessage="Email không hợp lệ"
+                CssClass="error"
+                ValidationGroup="SubmitGroup" ForeColor="Red" />
             <br />
-            <span>Avatar</span>
-            <asp:FileUpload ID="txtAvatar" runat="server" Text="Chọn tập tin..." />
+
+            <span class="label">Avatar</span>
+            <asp:FileUpload ID="txtAvatar" runat="server" />
             <br />
+
             <div class="hobbiesClass">
-                 <span>Sở thích</span>
-                 <asp:CheckBoxList ID="txtHobbies" runat="server">
-                     <asp:ListItem Text="Nghe nhạc" Value="Nghe nhạc" />
-                     <asp:ListItem Text="Xem TV" Value="Xem TV" />
-                     <asp:ListItem Text="Chơi thể thao" Value="Chơi thể thao" />
-                     <asp:ListItem Text="Đọc sách" Value="Đọc sách" />
-                 </asp:CheckBoxList>
+                <span class="label">Sở thích</span>
+                <asp:CheckBoxList ID="txtHobbies" runat="server" RepeatDirection="Horizontal">
+                    <asp:ListItem Text="Nghe nhạc" Value="Nghe nhạc" />
+                    <asp:ListItem Text="Xem TV" Value="Xem TV" />
+                    <asp:ListItem Text="Chơi thể thao" Value="Chơi thể thao" />
+                    <asp:ListItem Text="Đọc sách" Value="Đọc sách" />
+                </asp:CheckBoxList>
+                <br />
+                 <asp:Label ID="lblHobbyError" runat="server" Text="" ForeColor="Red" Visible="false" CssClass="error"></asp:Label>
             </div>
             <br />
         </div>
+
         <h3>Thông tin đăng ký xét tuyển</h3>
         <div class="form-block">
             <br />
-            <span>Lĩnh vực đăng ký</span>
+            <span class="label">Lĩnh vực đăng ký</span>
             <asp:DropDownList ID="txtMajor" runat="server">
                 <asp:ListItem Text="CNTT" Value="CNTT" />
                 <asp:ListItem Text="Kinh tế" Value="Kinh tế" />
@@ -197,10 +225,15 @@
             </asp:DropDownList>
             <br />
 
-            <span>Địa chỉ liên hệ</span>
+            <span class="label">Địa chỉ liên hệ</span>
             <asp:TextBox ID="txtAddress" runat="server" />
+            <asp:RequiredFieldValidator ID="rfvAddress" runat="server"
+                ControlToValidate="txtAddress" ErrorMessage="Vui lòng nhập địa chỉ"
+                CssClass="error" ValidationGroup="SubmitGroup" ForeColor="Red"/>
         </div>
-            <asp:Button ID="btnSubmit" runat="server" Text="ĐĂNG KÝ" OnClick="btnSubmit_Click" />
+
+        <asp:Button ID="btnSubmit" runat="server" Text="ĐĂNG KÝ"
+            OnClick="btnSubmit_Click" ValidationGroup="SubmitGroup" />
     </form>
 </body>
 </html>
